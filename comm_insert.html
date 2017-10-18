@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>指令管理-增加</title>
+  <link rel="stylesheet" href="./css/public.css">
+  <link rel="stylesheet" href="./css/layout.css">
+  <style>
+    .zl-insert { display: flex; flex-flow: row; height: 30px; line-height: 30px; padding-left: 20px; margin: 10px 0;}
+    .zl-content-wrap { display: flex; flex-direction: column; margin: 20px; height: 600px; border: 1px solid red; overflow: hidden;}
+    .zl-content-nav { display: flex; justify-content: space-between;}
+    .zl-content-nav h4 { margin-bottom: 10px;}
+    .zl-content-nav a { margin: 0 10px 10px 0;}
+    .zl-content-nav a:hover { color: #f00;}
+    .zl-content-table { display: flex; justify-content: center;}
+    table { width: 100%; text-align: center;}
+    table thead tr th { background: #064C7F; color: #fff; height: 40px;}
+  </style>
+</head>
+<body>
+  <div class="nav">指令管理 > 增加</div>
+  <div class="zl-insert">
+    <h4>指令名称:&nbsp;&nbsp;</h4> <input type="text" id="commName" placeholder="请输入指令名称">
+  </div>
+  <div class="zl-insert">
+    <h4>指令描述:&nbsp;&nbsp;</h4> <input type="text" id="commDesc" placeholder="请输入指令的描述">
+  </div>
+  <div class="zl-content-wrap">
+    <div class="zl-content-nav">
+      <h4>指令内容:</h4>
+      <a href="javascript:;">新增</a>
+    </div>
+    <div class="zl-content-table">
+      <table>
+        <thead>
+          <tr>
+            <th>序号</td>
+            <th>内容</th>
+            <th>添加日期</th>
+            <th>网络地址</th>
+            <th>操作</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</body>
+</html>

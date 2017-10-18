@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>后台管理系统</title>
+  <link rel="stylesheet" href="./css/public.css">
+  <link rel="stylesheet" href="./css/layout.css">
+  <script src="./jquery-1.8.3.min.js"></script>
+</head>
+<body>
+  <div class="header-wrap">
+    <div class="header-title">后台管理系统</div>
+    <div class="header-user">test</div>
+  </div>
+  <div class="main-wrap">
+    <div class="main-left">
+      <ul>
+        <li class="nLi">
+          <h3>指令管理</h3>
+          <ul class="sub">
+            <li><a href="javascript:;">指令增加</a></li>
+            <li><a href="javascript:;">指令删除</a></li>
+            <li><a href="javascript:;">指令修改</a></li>
+            <li><a href="javascript:;">指令查询</a></li>
+          </ul>
+        </li>
+        <li class="nLi">
+            <h3>接口管理</h3>
+            <ul class="sub">
+              <li><a href="javascript:;">接口修改</a></li>
+              <li><a href="javascript:;">接口查询</a></li>
+            </ul>
+          </li>
+          <li class="nLi">
+              <h3>账户管理</h3>
+              <ul class="sub">
+                <li><a href="javascript:;">账户增加</a></li>
+                <li><a href="javascript:;">账户删除</a></li>
+                <li><a href="javascript:;">账户修改</a></li>
+                <li><a href="javascript:;">账户查询</a></li>
+              </ul>
+            </li>
+      </ul>
+    </div>
+
+    <script>
+      // 左侧菜单树
+      $(".main-left .nLi h3").click(function(){
+      if($(this).parent(".nLi").hasClass("on")){
+          $(this).parent(".nLi").removeClass("on")
+        }else{
+          $(this).parents("ul").find(".nLi").removeClass("on")
+          $(this).parent(".nLi").addClass("on")
+        }
+      })
+    </script>
+
+    <div id="content" class="content">
+      <!-- 1536x772 -->
+      <!-- <iframe src="./comm_insert.html" frameborder="0" marginheight="0" marginwidth="0" scrolling="no"></iframe> -->
+    </div>
+
+    <script>
+       // 侧边栏按钮点击跳转网页功能
+       $(".main-left .nLi .sub li a").click(function(){
+        if($(this).html() == "指令增加"){
+          $("#content").html('<iframe src="./comm_insert.html" frameborder="0" marginheight="0" marginwidth="0" scrolling="no" height="772px" width="1536px"></iframe>')
+        }
+        if($(this).html() == "指令删除"){
+          $("#content").html('<iframe src="./comm_del.html" frameborder="0" marginheight="0" marginwidth="0" scrolling="no" height="772px" width="1536px"></iframe>')          
+        }
+      })
+    </script>
+
+
+  </div>
+  <div class="footer">
+    <div class="footer-txt">copyright©2017-2017</div>
+  </div>
+</body>
+</html>

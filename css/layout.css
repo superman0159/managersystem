@@ -1,0 +1,30 @@
+/* 版面布局 */
+
+/* header */
+.header-wrap { display: flex; width: 100%; height: 100px; background: #333;}  /*border-bottom: 3px solid #338CFF;*/
+.header-title { display: flex; justify-content: flex-start; width: 90%; min-width: 277px; height: 100px; line-height: 100px; padding-left: 30px; font-size: 40px; color: #fff;}
+.header-user { display: flex; justify-content: flex-end; width: 10%; height: 100px; padding: 15px 15px 0 0; color: #fff;}
+
+/* main */
+.main-wrap { display: flex; width: 100%; min-height: 100vh;}
+content { display: flex; flex: 1;}
+/* main-left */
+.main-left { display: flex; flex-direction: column; width: 250px; min-width: 188px; height: 100%; background: #4d5e70 bottom;}
+.main-left-title { display: flex; justify-content: flex-start; align-items: center; height: 70px; padding-left: 20px; background: #354457; color: #fff; font: 25px bold; font-family: "黑体" ;}
+.main-left-userinfo { flex-direction: column; padding-left: 20px; border-bottom: 1px solid #354457; margin: 0 5px 2px; height: 80px; background: #4d5e70;}
+.main-left-userinfo p { padding-top: 10px; padding-bottom: 5px; color: #b3bcc5; font-size: 14px;}
+.main-left-userinfo a { color: #b3bcc5; font-size: 12px;}
+.main-left h3 { height: 32px; line-height: 32px; padding: 5px 0 5px 20px; background: #354457; cursor: pointer; font-size: 16px; font-family: "宋体"; color: #b3bcc5;}
+.main-left ul .nLi.on h3{ display: block; border-right: 8px solid #bb0000; background: #354457;}
+.main-left ul .nLi.on .sub { display: block;}
+.main-left ul .nLi .sub { padding:8px 0; color:#999; display:none;}
+.main-left ul .nLi .sub li { height: 30px; line-height: 30px; list-style: none;}
+.main-left ul .nLi .sub li a { display: block; width: 100%; height: 100%; font-family: 'Microsoft YaHei'; font-size: 14px; color: #b3bcc5; text-decoration: none; padding:0 25px; box-sizing:border-box;}
+.main-left ul .nLi .sub li a:hover { background:#949494;}
+/* main-right */
+.main-right { display: flex; flex-direction: column; flex: 1; min-height: 100vh; min-width: 100vh; overflow: hidden;}
+.nav { width: 100%; height: 30px; line-height: 30px; background: #666; font-size: 16px; color: #fff; padding-left: 10px;}
+
+/* footer */
+.footer { display: flex; justify-content: center; flex-direction: column; width: 100%; height: 100px; border-top: 2px solid #313131; background: #333;}
+.footer-txt { display: flex; justify-content: center; font-size: 16px; color: #fff;}
