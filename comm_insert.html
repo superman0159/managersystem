@@ -10,7 +10,7 @@
   <link rel="stylesheet" href="./css/layout.css">
   <style>
     .zl-insert { display: flex; flex-flow: row; height: 30px; line-height: 30px; padding-left: 20px; margin: 10px 0;}
-    .zl-content-wrap { display: flex; flex-direction: column; margin: 20px; height: 600px; overflow: hidden;}
+    .zl-content-wrap { display: flex; flex-direction: column; margin: 20px; overflow: hidden;}
     .zl-content-nav { display: flex; flex-direction: row; line-height: 50px;}
     .zl-content-nav h4 { margin-bottom: 10px;}
     .zl-content-nav a { margin: 0 10px 10px 10px; color: rgb(0, 145, 0); font-size: 25px;}
@@ -23,6 +23,11 @@
     table tbody tr { height: 40px; font-size: 16px;}
     table tbody tr td input { width: 80%; padding: 5px 0;}
     .oddColor { background: rgb(209, 209, 209);}
+    .evenColor { background: #fff;}
+    .changeColor { background: rgb(231, 231, 231);}
+    tfoot { display: flex; justify-content: flex-end;}
+    tfoot tr td { height: 70px;}
+    tfoot tr td span { margin: 0 3px;}
   </style>
 </head>
 <body>
@@ -36,7 +41,8 @@
   <div class="zl-content-wrap">
     <div class="zl-content-nav">
       <h4>指令内容:</h4>
-      <a href="javascript:;">✚</a>
+      <a class="btninsert" href="javascript:;">✚</a>
+      <a class="btnsubmit" href="javascript:;">提交</a>
     </div>
     <div class="zl-content-table">
       <table cellspacing="0">
@@ -50,10 +56,9 @@
           </tr>
         </thead>
         <tbody></tbody>
-      </table>
     </div>
-
-    <script>
+  </div>
+  <script>
     // 增加行
       var rowCount = 0;
 
@@ -91,23 +96,30 @@
         $("#idDate"+rowCount).text(currentdate);
 
         // 隔行变色
-        $("tbody tr:odd").addClass("oddColor")
+        // $("tbody tr:odd").addClass("oddColor")
+
+        changecolor();
       }
 
+      $(".btninsert").click(getNowFormatDate);
+      
       // 删除行
-      function delRow(_id){
-        $("table .tr_"+_id).hide();
-        rowCount--;
-      } 
+      $("tbody tr td a").live('click', function(){
+        if(confirm("是否删除本条指令？")){
+          $(this).parents('tr').remove()
+        }
+      })
 
+      function changecolor() {
+          // 鼠标移入移出变色
+          $("tbody tr").mouseover(function () {
+            $(this).addClass("changeColor")
+          }).mouseout(function () {
+            $(this).removeClass("changeColor")
+          })
+        }
 
-      $(".zl-content-nav a").click(getNowFormatDate);
-      $(".tr_" + rowCount + " td a").click(function(){
-        console.log(this + "123")
-      });
+  </script>
 
-    </script>
-  </div>
-  
 </body>
 </html>
