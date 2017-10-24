@@ -20,9 +20,9 @@
     /* 显示搜索结果 */
     .comm-content-table { display: flex; flex-direction: column; justify-content: center; margin-top: 40px;}
     table { width: 100%; text-align: center; }
-    table thead tr th { background: #064C7F; color: #fff; width: 18%; height: 40px; font-size: 18px; letter-spacing: 4px;}
-    .checkbox-th { background: #064C7F; color: #fff; width: 10%; height: 40px; font-size: 18px; letter-spacing: 4px;}
-    .checkbox { height: 18px; width: 18px;}
+    table thead tr th { background: #064C7F; color: #fff; width: 20%; height: 40px; font-size: 18px; letter-spacing: 4px;}
+    /* .checkbox-th { background: #064C7F; color: #fff; width: 10%; height: 40px; font-size: 18px; letter-spacing: 4px;}
+    .checkbox { height: 18px; width: 18px;} */
     .hiddenTh { visibility: hidden;}
     tbody tr td a:hover { color: #f00;}
     table tbody tr { height: 40px; font-size: 16px;}
@@ -36,42 +36,54 @@
 
   <script>
     $(function(){
-      // ajax请求返回的数据格式化成json
-      var jsonData = [{"id":1, "commName":"test1", "commDescr":"test1test1test1test1", "total":2099},{"id":2, "commName":"test2", "commDescr":"te21te21tes2est2", "total":1099}];
+      /*
+      $.ajax({
+        type: 'GET',
+        url: './test.json',
+        dataType: 'jsonp',
+        success: function(data) {
+          console.log(data);
+        }
+      });
+      */
+      // ajax请求返回的数据格式化成json格式
+      var jsonData = [{"contentList":[{"commandId":"1","content":"test","id":"1","url":"null"},{"commandId":"1","content":"4","id":"4","url":"4"}],"description":"搞笑趣事","id":"1","name":"笑话"},{"contentList":[{"commandId":"2","content":"2","id":"2","url":"2"}],"description":"今日新闻","id":"2","name":"新闻"},{"contentList":[{"commandId":"3","content":"3","id":"3","url":"3"}],"description":"精选段子","id":"3","name":"段子"},{"contentList":[],"description":"指令学习","id":"18","name":"123"},{"contentList":[],"description":"指令学习","id":"19","name":"zd"}];
       var rowCount = 0;
       var tableHtml = $(".comm-content-table table tbody").html();
 
       rowCount++;
       $.each(jsonData, function(){
-        var searchRslt = "<tr><td><input class='checkbox' type='checkbox'></td><td>" + this.id + "</td><td>" + this.commName + "</td><td>" + this.commDescr + "</td><td>" + this.total +"</td><td><a href='javascript:;'>修改</a></td>";
+        var searchRslt = "<tr><td>" + this.id + "</td><td>" + this.name + "</td><td>" + this.description + "</td><td>" + $(this)[0].contentList.length +"</td><td><a href='javascript:;'>修改</a></td></tr>"; // $(this)[0].contentList.length 获取当前指令的contentList的长度
 
         tableHtml += searchRslt;
-        $(".comm-content-table table tbody").html(tableHtml);
       })
+      $(".comm-content-table table tbody").html(tableHtml);
 
       // 点击查询按钮进行搜索
       $(".search-btn").click(function(){
-        var commName = $("#commName").val();
-        var commDescr = $("#commDescr").val();
-        $.each(jsonData, function(){
-          if(commName == this.commName || commDescr == this.commDescr){
-            var searchRslt = "<tr><td><input class='checkbox' type='checkbox'></td><td>" + this.id + "</td><td>" + this.commName + "</td><td>" + this.commDescr + "</td><td>" + this.total +"</td><td><a href='javascript:;'>修改</a></td>";
+        var name = $("#name").val();
+        var description = $("#description").val();
+        // if(name != this.name && description != this.description){
+        //   alert("请输入正确的指令名称或指令描述！");
+        // }
 
-            tableHtml = searchRslt;
-            $(".comm-content-table table tbody").html(tableHtml);
+        $(".comm-content-table table tbody").empty("");
+        $.each(jsonData, function(){
+          if(name == this.name || description == this.description){
+            var searchRslt = "<tr><td>" + this.id + "</td><td>" + this.name + "</td><td>" + this.description + "</td><td>" + $(this)[0].contentList.length +"</td><td><a href='javascript:;'>修改</a></td>";
+            
+            tableHtml += searchRslt;
+          }else if(name == "" && description == ""){
+            var searchRslt = "<tr><td>" + this.id + "</td><td>" + this.name + "</td><td>" + this.description + "</td><td>" + $(this)[0].contentList.length +"</td><td><a href='javascript:;'>修改</a></td></tr>"; // $(this)[0].contentList.length 获取当前指令的contentList的长度
+           
+            tableHtml += searchRslt;
+            console.log(searchRslt);
           }
         })
-      })
 
-      // 全选全不选
-      $(".checkbox-th").click(function(){
-        if($(this).is(":checked")){
-          $("input[class='checkbox']").removeAttr("checked");
-        }else{
-          $("input[class='checkbox']").attr("checked", "true");
-        }
+        console.log($(".comm-content-table table tbody").html(tableHtml))
+        $(".comm-content-table table tbody").html(tableHtml);        
       })
-      
 
       // jquery.pagination 分页插件
       /*
@@ -93,19 +105,16 @@
 <body>
   <div class="nav">指令管理 > 查询</div>
   <div class="comm-searchbar">
-    <h3>指令名称：</h3><input id="commName" type="text" placeholder="请输入指令名称">
-    <h3>指令描述：</h3><input id="commDescr" type="text" placeholder="请输入指令描述">
+    <h3>指令名称：</h3><input id="name" type="text" placeholder="请输入指令名称">
+    <h3>指令描述：</h3><input id="description" type="text" placeholder="请输入指令描述">
     <span><a class="search-btn" href="javascript:;">查询</a></span>
   </div>
   <div class="comm-content-table">
     <table cellspacing="0">
       <thead>
         <tr>
-          <th class="checkbox-th">
-            <input class="checkbox" type="checkbox" value="selectall">
-          </th>
           <th>指令ID</th>
-          <th>内容</th>
+          <th>指令名称</th>
           <th>指令描述</th>
           <th>内容数</th>
           <th>操作</th>
