@@ -9,17 +9,17 @@
   <link rel="stylesheet" href="./css/public.css">
   <link rel="stylesheet" href="./css/layout.css">
   <style>
-    .zl-insert { display: flex; flex-flow: row; height: 30px; line-height: 30px; padding-left: 20px; margin: 10px 0;}
-    .zl-content-wrap { display: flex; flex-direction: column; margin: 20px; overflow: hidden;}
-    .zl-content-nav { display: flex; flex-direction: row; line-height: 50px;}
-    .zl-content-nav h4 { margin-bottom: 10px;}
-    .zl-content-nav a { margin: 0 10px 10px 10px; color: rgb(0, 145, 0); font-size: 25px;}
-    /* .zl-content-nav a:hover { color: #f00;} */
-    tbody tr td a:hover { color: #f00;}
-    .zl-content-table { display: flex; justify-content: center;}
+    .comm-insert { display: flex; flex-flow: row; height: 30px; line-height: 30px; padding-left: 20px; margin: 10px 0;}
+    .comm-content-wrap { display: flex; flex-direction: column; margin: 20px; overflow: hidden;}
+    .comm-content-nav { display: flex; flex-direction: row; line-height: 50px;}
+    .comm-content-nav h4 { margin-bottom: 10px;}
+    .comm-content-nav a { margin: 0 10px 10px 10px; color: rgb(0, 145, 0); font-size: 25px;}
+    /* .comm-content-nav a:hover { color: #f00;} */
+    .comm-content-table { display: flex; justify-content: center;}
     table { width: 100%; text-align: center; }
     table thead tr th { background: #064C7F; color: #fff; width: 20%; height: 40px; font-size: 18px; letter-spacing: 4px;}
     .hiddenTh { visibility: hidden;}
+    tbody tr td a:hover { color: #f00;}
     table tbody tr { height: 40px; font-size: 16px;}
     table tbody tr td input { width: 80%; padding: 5px 0;}
     .oddColor { background: rgb(209, 209, 209);}
@@ -33,19 +33,19 @@
 <body>
   // 导航栏
   <div class="nav">指令管理 > 增加</div>
-  <div class="zl-insert">
+  <div class="comm-insert">
     <h4>指令名称:&nbsp;&nbsp;</h4> <input type="text" id="commName" placeholder="请输入指令名称">
   </div>
-  <div class="zl-insert">
+  <div class="comm-insert">
     <h4>指令描述:&nbsp;&nbsp;</h4> <input type="text" id="commDesc" placeholder="请输入指令的描述">
   </div>
-  <div class="zl-content-wrap">
-    <div class="zl-content-nav">
+  <div class="comm-content-wrap">
+    <div class="comm-content-nav">
       <h4>指令内容:</h4>
       <a class="btninsert" href="javascript:;">✚</a>
       <a class="btnsubmit" href="javascript:;">提交</a>
     </div>
-    <div class="zl-content-table">
+    <div class="comm-content-table">
       <table cellspacing="0">
         <thead>
           <tr class="hiddenTh">
@@ -68,10 +68,10 @@
 
         rowCount++;
         var rowTemplate = '<tr class="tr_' + rowCount + '"><td>' + rowCount + '</td><td><input type="text" /></td><td id="idDate' + rowCount + '"></td><td><input type="text" /></td><td><a href="javascript:;">删除</a></td></tr>';
-        var tableHtml = $(".zl-content-table table tbody").html();
+        var tableHtml = $(".comm-content-table table tbody").html();
 
         tableHtml += rowTemplate;
-        $(".zl-content-table table tbody").html(tableHtml);
+        $(".comm-content-table table tbody").html(tableHtml);
 
         return rowCount;
       }
