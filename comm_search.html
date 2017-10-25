@@ -29,13 +29,10 @@
     .oddColor { background: rgb(209, 209, 209);}
     .evenColor { background: #fff;}
     .changeColor { background: rgb(231, 231, 231);}
-    tfoot { display: flex; justify-content: flex-end;}
-    tfoot tr td { height: 70px;}
-    tfoot tr td span { margin: 0 3px;}
   </style>
 
   <script>
-    $(function(){
+    $(function () {
       /*
       $.ajax({
         type: 'GET',
@@ -47,43 +44,74 @@
       });
       */
       // ajax请求返回的数据格式化成json格式
-      var jsonData = [{"contentList":[{"commandId":"1","content":"test","id":"1","url":"null"},{"commandId":"1","content":"4","id":"4","url":"4"}],"description":"搞笑趣事","id":"1","name":"笑话"},{"contentList":[{"commandId":"2","content":"2","id":"2","url":"2"}],"description":"今日新闻","id":"2","name":"新闻"},{"contentList":[{"commandId":"3","content":"3","id":"3","url":"3"}],"description":"精选段子","id":"3","name":"段子"},{"contentList":[],"description":"指令学习","id":"18","name":"123"},{"contentList":[],"description":"指令学习","id":"19","name":"zd"}];
-      var rowCount = 0;
-      var tableHtml = $(".comm-content-table table tbody").html();
+      var jsonData = [{ "contentList": [{ "commandId": "1", "content": "test", "id": "1", "url": "null" }, { "commandId": "1", "content": "4", "id": "4", "url": "4" }], "description": "搞笑趣事", "id": "1", "name": "笑话" }, { "contentList": [{ "commandId": "2", "content": "2222", "id": "2", "url": "fdfd" }], "description": "今日新闻", "id": "2", "name": "新闻" }, { "contentList": [{ "commandId": "3", "content": "3", "id": "3", "url": "3" }], "description": "精选段子", "id": "3", "name": "段子" }, { "contentList": [], "description": "指令学习", "id": "18", "name": "123" }, { "contentList": [], "description": "指令学习", "id": "19", "name": "zd" }];
+      // var tableHtml = $(".comm-content-table table tbody").html();
+      var tableHtml = "";
 
-      rowCount++;
-      $.each(jsonData, function(){
-        var searchRslt = "<tr><td>" + this.id + "</td><td>" + this.name + "</td><td>" + this.description + "</td><td>" + $(this)[0].contentList.length +"</td><td><a href='javascript:;'>修改</a></td></tr>"; // $(this)[0].contentList.length 获取当前指令的contentList的长度
+      $.each(jsonData, function () {
+        var searchRslt = "<tr><td>" + this.id + "</td><td>" + this.name + "</td><td>" + this.description + "</td><td>" + $(this)[0].contentList.length + "</td><td><a href='javascript:;'>修改</a></td></tr>"; // $(this)[0].contentList.length 获取当前指令的contentList的长度
 
         tableHtml += searchRslt;
       })
       $(".comm-content-table table tbody").html(tableHtml);
 
       // 点击查询按钮进行搜索
-      $(".search-btn").click(function(){
+      $(".search-btn").click(function () {
         var name = $("#name").val();
         var description = $("#description").val();
+      
         // if(name != this.name && description != this.description){
         //   alert("请输入正确的指令名称或指令描述！");
         // }
+        tableHtml = "";
+        $(".comm-content-table table tbody").html(tableHtml);
+        $.each(jsonData, function () {
+          if (name == this.name || description == this.description) {
+            var searchRslt = "<tr><td>" + this.id + "</td><td>" + this.name + "</td><td>" + this.description + "</td><td>" + $(this)[0].contentList.length + "</td><td><a href='javascript:;'>修改</a></td>";
 
-        $(".comm-content-table table tbody").empty("");
-        $.each(jsonData, function(){
-          if(name == this.name || description == this.description){
-            var searchRslt = "<tr><td>" + this.id + "</td><td>" + this.name + "</td><td>" + this.description + "</td><td>" + $(this)[0].contentList.length +"</td><td><a href='javascript:;'>修改</a></td>";
-            
             tableHtml += searchRslt;
-          }else if(name == "" && description == ""){
-            var searchRslt = "<tr><td>" + this.id + "</td><td>" + this.name + "</td><td>" + this.description + "</td><td>" + $(this)[0].contentList.length +"</td><td><a href='javascript:;'>修改</a></td></tr>"; // $(this)[0].contentList.length 获取当前指令的contentList的长度
-           
+          } else if (name == "" && description == "") {
+            // $(this)[0].contentList.length 获取当前指令的contentList的长度
+            var searchRslt = "<tr><td>" + this.id + "</td><td>" + this.name + "</td><td>" + this.description + "</td><td>" + $(this)[0].contentList.length + "</td><td><a href='javascript:;'>修改</a></td></tr>"; 
             tableHtml += searchRslt;
-            console.log(searchRslt);
           }
-        })
+        });
+        $(".comm-content-table table tbody").html(tableHtml);
+        if(tableHtml == ""){
+          alert("未找到指定结果！");
+          if($("#name").val() != "") {
+            $("#name").focus();
+          } else if($("#description").val() != "") {
+            $("#description").focus();
+          }
+        }
+        changeColor();
+        jumpPage();
+      });
 
-        console.log($(".comm-content-table table tbody").html(tableHtml))
-        $(".comm-content-table table tbody").html(tableHtml);        
-      })
+      // 点击修改按钮进入对应修改界面
+      function jumpPage() {
+        $("td a").click(function () {
+          var id = $(this).parents("tr").children("td")[0].innerHTML;
+          var name = $(this).parents("tr").children("td")[1].innerHTML;
+          var description = $(this).parents("tr").children("td")[2].innerHTML;
+          console.log("id:" + id + " name:" + name + " descr:" + description)
+          var url = encodeURI(encodeURI('./comm_alter.html?id=' + id + '&name=' + name + '&description=' + description));
+
+          $(location).attr('href', url);
+        })
+      }
+
+      // 鼠标移入移出变色
+      function changeColor() {
+        $("tbody tr").mouseover(function () {
+          $(this).addClass("changeColor")
+        }).mouseout(function () {
+          $(this).removeClass("changeColor")
+        })
+      }
+      changeColor();
+      jumpPage();
 
       // jquery.pagination 分页插件
       /*

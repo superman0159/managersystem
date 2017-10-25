@@ -11,27 +11,130 @@
 
   <style>
     body { min-width: 710px;}
-    .comm-alter-searchbox { display: flex; flex-direction: column;}
+    .comm-alter-searchbox { display: flex; flex-direction: column; margin-bottom: 20px;}
     .comm-alter-searchbar { display: flex; flex-direction: row; height: 30px; line-height: 30px; margin-top: 10px;}
     .comm-alter-searchbar h3 { margin-left: 20px; width: 100px; text-align: center;}
     .comm-alter-searchbar input { margin-left: 10px;}
     .comm-alter-searchbar a { margin: 0 20px; padding: 5px 20px; border: 2px solid #000; border-radius: 30px;}
+    table { width: 100%; text-align: center; }
+    table thead tr th { background: #064C7F; color: #fff; width: 14%; height: 40px; font-size: 18px; letter-spacing: 4px;}
+    .checkbox-th-wrap { background: #064C7F; width: 5%; height: 40px;}
+    .checkbox-th { width: 20px; height: 20px;}
+    .checkbox { height: 20px; width: 20px;}
+    .url-th { width: 25%;}
+    tbody tr td a:hover { color: #f00;}
+    table tbody tr { height: 40px; font-size: 16px;}
+    .oddColor { background: rgb(209, 209, 209);}
+    .evenColor { background: #fff;}
+    .changeColor { background: rgb(231, 231, 231);}
+    .delmore-btn { color: #fff;}
+    .delmore-btn:hover { color: #f00;}
   </style>
+
+  <script>
+    $(function () {
+      // 取值，通过正则表达式获取地址栏的参数，并将参数填入搜索框内进行搜索
+      function getQueryString(name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); // 用正则表达式获取地址栏参数
+        var url = decodeURI(decodeURI(window.location.search.substr(1).match(reg)));  //两层解密
+        var r = url
+        if (r != null) {
+          var arryR = r.split(','); // 字符串转数组
+          return arryR[2];
+        }
+        return null;
+      }
+      $("#searchBtn").trigger("click");
+      // 将参数填入搜索框内
+      var id = $("#idId").val(getQueryString("id"));
+      var name = $("#idName").val(getQueryString("name"));
+      var description = $("#idDescr").val(getQueryString("description"));
+
+      // ajax请求返回的数据格式化成json格式
+      var jsonData = [{ "contentList": [{ "commandId": "1", "content": "test", "id": "1", "url": "null" }, { "commandId": "1", "content": "4", "id": "4", "url": "4" }], "description": "搞笑趣事", "id": "1", "name": "笑话" }, { "contentList": [{ "commandId": "2", "content": "2222", "id": "2", "url": "fdfd" }], "description": "今日新闻", "id": "2", "name": "新闻" }, { "contentList": [{ "commandId": "3", "content": "3", "id": "3", "url": "3" }], "description": "精选段子", "id": "3", "name": "段子" }, { "contentList": [], "description": "指令学习", "id": "18", "name": "123" }, { "contentList": [], "description": "指令学习", "id": "19", "name": "zd" }];
+      
+      // 点击按钮进行搜索
+      $(".search-btn").click(function () {
+        var tableHtml = "";
+        $.each(jsonData, function () {
+          if(id.val() == "" && name.val() == "" && description.val() == ""){
+            alert("请输入正确ID、指令名或指令描述!");
+            $("#idId").focus();
+            return false;
+          } 
+          if (id.val() == this.id || name.val() == this.name || description.val() == this.description) {
+            for (var i = 0; i < $(this)[0].contentList.length; i++) {
+              var searchRslt = "<tr><td><input class='checkbox' type='checkbox'></td><td>" + $(this)[0].contentList[i].id + "</td><td>" + $(this)[0].contentList[i].commandId + "</td><td>" + $(this)[0].contentList[i].content + "</td><td></td><td>" + $(this)[0].contentList[i].url + "<td><a class='del-btn' href='javascript:;'>删除</a></td></tr>"
+
+              tableHtml += searchRslt;
+            }
+          }
+        });
+        $(".comm-content-table table tbody").html(tableHtml);
+          if(tableHtml == "") {
+            alert("未找到指定结果！");
+            if($("#idId").val() != "") {
+              $("#idId").focus();
+            } else if($("#idName").val() != "") {
+              $("#idName").focus();
+            } else if($("#idDescr").val() != "") {
+              $("#idDescr").focus();
+            }
+          }
+
+          changeColor();
+          delRow();
+        });
+
+      // 鼠标移入移出变色
+      function changeColor() {
+        $("tbody tr").mouseover(function () {
+          $(this).addClass("changeColor")
+        }).mouseout(function () {
+          $(this).removeClass("changeColor")
+        })
+      }
+
+      // 点击删除按钮删除当前行
+      function delRow(){
+        $(".del-btn").click(function(){
+          if(confirm("确认删除当前行数据？")){
+            $(this).parents("tr").remove();
+          }
+        })
+      }
+    })
+  </script>
 </head>
 <body>
   <!-- test1 -->
   <div class="nav">指令管理 > 修改</div>
   <div class="comm-alter-searchbox">
     <div class="comm-alter-searchbar">
-      <h3>ID: </h3><input class="comm-alter-idtxt" type="text" readonly="true">
+      <h3>ID: </h3><input id="idId" class="comm-alter-idtxt" type="text">
     </div>
     <div class="comm-alter-searchbar">
-      <h3>指令名: </h3><input class="comm-alter-idtxt" type="text" readonly="true">
+      <h3>指令名: </h3><input id="idName" class="comm-alter-idtxt" type="text">
     </div>
     <div class="comm-alter-searchbar">
-      <h3>指令描述: </h3><input class="comm-alter-idtxt" type="text">
-      <span><a href="javascript:;">查询</a></span>
+      <h3>指令描述: </h3><input id="idDescr" class="comm-alter-idtxt" type="text">
+      <span><a class="search-btn" href="javascript:;"><span id="searchBtn">查询</span></a></span>
     </div>
   </div>
+  <div class="comm-content-table">
+    <table cellspacing="0">
+      <thead>
+        <tr>
+          <th class="checkbox-th-wrap"><input class="checkbox-th" type="checkbox"></th>
+          <th>序号</th>
+          <th>指令ID</th>
+          <th>内容</th>
+          <th>添加日期</th>
+          <th class="url-th">网络地址(URL)</th>
+          <th>操作/<a class="delmore-btn" href="javascript:;">批量删除键</a></th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
 </body>
 </html>
